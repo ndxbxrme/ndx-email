@@ -1,0 +1,31 @@
+{
+  "name": "ndx-email",
+  "version": "0.0.3",
+  "description": "send emails for ndx-framework",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "node build/test.js"
+  },
+  "ndx": true,
+  "loadOrder": 5,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ndxbxrme/ndx-email"
+  },
+  "author": "ndxbxrme",
+  "license": "MIT",
+  "homepage": "https://github.com/ndxbxrme/ndx-email",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-coffee": "^1.0.0",
+    "grunt-contrib-nodeunit": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "load-grunt-tasks": "^3.5.2"
+  },
+  "dependencies": {
+    "jade": "^1.11.0",
+    "nodemailer": "^2.7.1"
+  }
+}
