@@ -4,10 +4,10 @@ nodemailer = require 'nodemailer'
 jade = require 'jade'
 
 module.exports = (ndx) ->
-  user = process.env.MAIL_USER or ndx.settings.MAIL_USER
-  pass = process.env.MAIL_PASS or ndx.settings.MAIL_PASS
-  from = process.env.MAIL_FROM or ndx.settings.MAIL_FROM
-  service = process.env.MAIL_SERVICE or ndx.settings.MAIL_SERVICE
+  user = process.env.EMAIL_USER or ndx.settings.EMAIL_USER
+  pass = process.env.EMAIL_PASS or ndx.settings.EMAIL_PASS
+  from = process.env.EMAIL_FROM or ndx.settings.EMAIL_FROM
+  service = process.env.EMAIL_SERVICE or ndx.settings.EMAIL_SERVICE
   fillTemplate = (template, data) ->
     template.replace /\{\{(.+?)\}\}/g, (all, match) ->
       evalInContext = (str, context) ->
@@ -29,9 +29,9 @@ module.exports = (ndx) ->
   ndx.email =
     send: (ctx, cb) ->
       if user and pass and service
-        if process.env.MAIL_OVERRIDE
-          ctx.to = process.env.MAIL_OVERRIDE
-        if not process.env.MAIL_DISABLE
+        if process.env.EMAIL_OVERRIDE
+          ctx.to = process.env.EMAIL_OVERRIDE
+        if not process.env.EMAIL_DISABLE
           message =
             from: ctx.from or from
             to: ctx.to

@@ -8,10 +8,10 @@
 
   module.exports = function(ndx) {
     var callbacks, fillTemplate, from, pass, safeCallback, service, transporter, user;
-    user = process.env.MAIL_USER || ndx.settings.MAIL_USER;
-    pass = process.env.MAIL_PASS || ndx.settings.MAIL_PASS;
-    from = process.env.MAIL_FROM || ndx.settings.MAIL_FROM;
-    service = process.env.MAIL_SERVICE || ndx.settings.MAIL_SERVICE;
+    user = process.env.EMAIL_USER || ndx.settings.EMAIL_USER;
+    pass = process.env.EMAIL_PASS || ndx.settings.EMAIL_PASS;
+    from = process.env.EMAIL_FROM || ndx.settings.EMAIL_FROM;
+    service = process.env.EMAIL_SERVICE || ndx.settings.EMAIL_SERVICE;
     fillTemplate = function(template, data) {
       return template.replace(/\{\{(.+?)\}\}/g, function(all, match) {
         var evalInContext;
@@ -48,10 +48,10 @@
       send: function(ctx, cb) {
         var message;
         if (user && pass && service) {
-          if (process.env.MAIL_OVERRIDE) {
-            ctx.to = process.env.MAIL_OVERRIDE;
+          if (process.env.EMAIL_OVERRIDE) {
+            ctx.to = process.env.EMAIL_OVERRIDE;
           }
-          if (!process.env.MAIL_DISABLE) {
+          if (!process.env.EMAIL_DISABLE) {
             message = {
               from: ctx.from || from,
               to: ctx.to,
