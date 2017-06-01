@@ -26,8 +26,6 @@ module.exports = (ndx) ->
       auth:
         user: user
         pass: pass
-      tls:
-        rejectUnauthorized: false
   ndx.email =
     send: (ctx, cb) ->
       if user and pass and service
