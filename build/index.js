@@ -42,8 +42,6 @@
           user: user,
           pass: pass
         },
-        secure: false,
-        requireTLS: true,
         tls: {
           rejectUnauthorized: false
         }

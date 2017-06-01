@@ -26,8 +26,6 @@ module.exports = (ndx) ->
       auth:
         user: user
         pass: pass
-      secure: false
-      requireTLS: true
       tls:
         rejectUnauthorized: false
   ndx.email =

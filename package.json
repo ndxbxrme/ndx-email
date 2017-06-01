@@ -1,6 +1,6 @@
 {
   "name": "ndx-email",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "send emails for ndx-framework",
   "main": "build/index.js",
   "scripts": {
