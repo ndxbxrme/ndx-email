@@ -37,6 +37,7 @@ module.exports = (ndx) ->
             to: ctx.to
             subject: fillTemplate ctx.subject, ctx
             html: jade.render ctx.body, ctx
+          console.log 'sending', message
           transporter.sendMail message, (err, info) ->
             if err
               console.log err

@@ -58,6 +58,7 @@
               subject: fillTemplate(ctx.subject, ctx),
               html: jade.render(ctx.body, ctx)
             };
+            console.log('sending', message);
             return transporter.sendMail(message, function(err, info) {
               if (err) {
                 return console.log(err);
