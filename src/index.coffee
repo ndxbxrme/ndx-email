@@ -4,10 +4,12 @@ nodemailer = require 'nodemailer'
 jade = require 'jade'
 
 module.exports = (ndx) ->
-  user = process.env.EMAIL_USER or ndx.settings.EMAIL_USER
-  pass = process.env.EMAIL_PASS or ndx.settings.EMAIL_PASS
-  from = process.env.EMAIL_FROM or ndx.settings.EMAIL_FROM
+  user = process.env.EMAIL_USER or ndx.settings.EMAIL_USER or process.env.SMTP_USER or ndx.settings.SMTP_USER
+  pass = process.env.EMAIL_PASS or ndx.settings.EMAIL_PASS or process.env.SMTP_PASS or ndx.settings.SMTP_PASS
+  from = process.env.EMAIL_FROM or ndx.settings.EMAIL_FROM or process.env.SMTP_FROM or ndx.settings.SMTP_FROM
   service = process.env.EMAIL_SERVICE or ndx.settings.EMAIL_SERVICE
+  smtpHost = process.env.EMAIL_HOST or ndx.settings.EMAIL_HOST or process.env.SMTP_HOST or ndx.settings.SMTP_HOST
+  smtpPort = process.env.EMAIL_PORT or ndx.settings.EMAIL_PORT or process.env.SMTP_PORT or ndx.settings.SMTP_PORT or 587
   fillTemplate = (template, data) ->
     template.replace /\{\{(.+?)\}\}/g, (all, match) ->
       evalInContext = (str, context) ->
@@ -23,6 +25,13 @@ module.exports = (ndx) ->
   if user and pass and service
     transporter = nodemailer.createTransport
       service: service
+      auth:
+        user: user
+        pass: pass
+  else if user and pass and smtpHost
+    transporter = nodemailer.createTransport
+      host: smtpHost
+      port: smtpPort
       auth:
         user: user
         pass: pass

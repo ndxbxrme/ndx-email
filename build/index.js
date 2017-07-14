@@ -7,11 +7,13 @@
   jade = require('jade');
 
   module.exports = function(ndx) {
-    var callbacks, fillTemplate, from, pass, safeCallback, service, transporter, user;
-    user = process.env.EMAIL_USER || ndx.settings.EMAIL_USER;
-    pass = process.env.EMAIL_PASS || ndx.settings.EMAIL_PASS;
-    from = process.env.EMAIL_FROM || ndx.settings.EMAIL_FROM;
+    var callbacks, fillTemplate, from, pass, safeCallback, service, smtpHost, smtpPort, transporter, user;
+    user = process.env.EMAIL_USER || ndx.settings.EMAIL_USER || process.env.SMTP_USER || ndx.settings.SMTP_USER;
+    pass = process.env.EMAIL_PASS || ndx.settings.EMAIL_PASS || process.env.SMTP_PASS || ndx.settings.SMTP_PASS;
+    from = process.env.EMAIL_FROM || ndx.settings.EMAIL_FROM || process.env.SMTP_FROM || ndx.settings.SMTP_FROM;
     service = process.env.EMAIL_SERVICE || ndx.settings.EMAIL_SERVICE;
+    smtpHost = process.env.EMAIL_HOST || ndx.settings.EMAIL_HOST || process.env.SMTP_HOST || ndx.settings.SMTP_HOST;
+    smtpPort = process.env.EMAIL_PORT || ndx.settings.EMAIL_PORT || process.env.SMTP_PORT || ndx.settings.SMTP_PORT || 587;
     fillTemplate = function(template, data) {
       return template.replace(/\{\{(.+?)\}\}/g, function(all, match) {
         var evalInContext;
@@ -38,6 +40,15 @@
     if (user && pass && service) {
       transporter = nodemailer.createTransport({
         service: service,
+        auth: {
+          user: user,
+          pass: pass
+        }
+      });
+    } else if (user && pass && smtpHost) {
+      transporter = nodemailer.createTransport({
+        host: smtpHost,
+        port: smtpPort,
         auth: {
           user: user,
           pass: pass
