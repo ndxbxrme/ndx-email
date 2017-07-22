@@ -58,7 +58,7 @@
     return ndx.email = {
       send: function(ctx, cb) {
         var message;
-        if (user && pass && service) {
+        if (user && pass && (service || smtpHost)) {
           if (process.env.EMAIL_OVERRIDE) {
             ctx.to = process.env.EMAIL_OVERRIDE;
           }
@@ -69,16 +69,30 @@
               subject: fillTemplate(ctx.subject, ctx),
               html: jade.render(ctx.body, ctx)
             };
-            console.log('sending', message);
             return transporter.sendMail(message, function(err, info) {
               if (err) {
-                return console.log(err);
+                message.err = err;
+                return safeCallback('error', message);
+              } else {
+                return safeCallback('send', message);
               }
             });
           } else {
-            return console.log('mail disabled');
+            ctx.err = 'mail disabled';
+            return safeCallback('error', ctx);
           }
+        } else {
+          ctx.err = 'user/pass/service/host not set';
+          return safeCallback('error', ctx);
         }
+      },
+      on: function(name, callback) {
+        callbacks[name].push(callback);
+        return this;
+      },
+      off: function(name, callback) {
+        callbacks[name].splice(callbacks[name].indexOf(callback), 1);
+        return this;
       }
     };
   };

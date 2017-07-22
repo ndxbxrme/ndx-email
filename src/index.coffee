@@ -37,7 +37,7 @@ module.exports = (ndx) ->
         pass: pass
   ndx.email =
     send: (ctx, cb) ->
-      if user and pass and service
+      if user and pass and (service or smtpHost)
         if process.env.EMAIL_OVERRIDE
           ctx.to = process.env.EMAIL_OVERRIDE
         if not process.env.EMAIL_DISABLE
@@ -46,9 +46,21 @@ module.exports = (ndx) ->
             to: ctx.to
             subject: fillTemplate ctx.subject, ctx
             html: jade.render ctx.body, ctx
-          console.log 'sending', message
           transporter.sendMail message, (err, info) ->
             if err
-              console.log err
+              message.err = err
+              safeCallback 'error', message
+            else
+              safeCallback 'send', message
         else
-          console.log 'mail disabled'
+          ctx.err = 'mail disabled'
+          safeCallback 'error', ctx
+      else
+        ctx.err = 'user/pass/service/host not set'
+        safeCallback 'error', ctx
+    on: (name, callback) ->
+      callbacks[name].push callback
+      @
+    off: (name, callback) ->
+      callbacks[name].splice callbacks[name].indexOf(callback), 1
+      @
