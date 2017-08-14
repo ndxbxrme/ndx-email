@@ -11,6 +11,7 @@ module.exports = (ndx) ->
   smtpHost = process.env.EMAIL_HOST or ndx.settings.EMAIL_HOST or process.env.SMTP_HOST or ndx.settings.SMTP_HOST
   smtpPort = process.env.EMAIL_PORT or ndx.settings.EMAIL_PORT or process.env.SMTP_PORT or ndx.settings.SMTP_PORT or 587
   fillTemplate = (template, data) ->
+    console.log 'fill template', template, data
     template.replace /\{\{(.+?)\}\}/g, (all, match) ->
       evalInContext = (str, context) ->
         (new Function("with(this) {return #{str}}"))
@@ -37,6 +38,7 @@ module.exports = (ndx) ->
         pass: pass
   ndx.email =
     send: (ctx, cb) ->
+      console.log 'send, ctx', ctx
       if user and pass and (service or smtpHost)
         if process.env.EMAIL_OVERRIDE
           ctx.to = process.env.EMAIL_OVERRIDE

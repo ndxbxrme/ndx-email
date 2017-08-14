@@ -15,6 +15,7 @@
     smtpHost = process.env.EMAIL_HOST || ndx.settings.EMAIL_HOST || process.env.SMTP_HOST || ndx.settings.SMTP_HOST;
     smtpPort = process.env.EMAIL_PORT || ndx.settings.EMAIL_PORT || process.env.SMTP_PORT || ndx.settings.SMTP_PORT || 587;
     fillTemplate = function(template, data) {
+      console.log('fill template', template, data);
       return template.replace(/\{\{(.+?)\}\}/g, function(all, match) {
         var evalInContext;
         evalInContext = function(str, context) {
@@ -58,6 +59,7 @@
     return ndx.email = {
       send: function(ctx, cb) {
         var message;
+        console.log('send, ctx', ctx);
         if (user && pass && (service || smtpHost)) {
           if (process.env.EMAIL_OVERRIDE) {
             ctx.to = process.env.EMAIL_OVERRIDE;
