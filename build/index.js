@@ -59,7 +59,6 @@
     return ndx.email = {
       send: function(ctx, cb) {
         var message;
-        console.log('send, ctx', ctx);
         if (user && pass && (service || smtpHost)) {
           if (process.env.EMAIL_OVERRIDE) {
             ctx.to = process.env.EMAIL_OVERRIDE;

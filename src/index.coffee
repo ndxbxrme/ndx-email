@@ -38,7 +38,6 @@ module.exports = (ndx) ->
         pass: pass
   ndx.email =
     send: (ctx, cb) ->
-      console.log 'send, ctx', ctx
       if user and pass and (service or smtpHost)
         if process.env.EMAIL_OVERRIDE
           ctx.to = process.env.EMAIL_OVERRIDE
