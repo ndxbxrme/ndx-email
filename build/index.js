@@ -69,6 +69,9 @@
               subject: fillTemplate(ctx.subject, ctx),
               html: jade.render(ctx.body, ctx)
             };
+            if (ctx.attachments) {
+              message.attachments = ctx.attachments;
+            }
             return transporter.sendMail(message, function(err, info) {
               if (err) {
                 message.err = err;

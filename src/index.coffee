@@ -46,6 +46,8 @@ module.exports = (ndx) ->
             to: ctx.to
             subject: fillTemplate ctx.subject, ctx
             html: jade.render ctx.body, ctx
+          if ctx.attachments
+            message.attachments = ctx.attachments
           transporter.sendMail message, (err, info) ->
             if err
               message.err = err
