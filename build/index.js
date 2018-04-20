@@ -59,6 +59,7 @@
       send: function(ctx, cb) {
         var message;
         if (user && pass && (service || smtpHost)) {
+          ctx.orig = ctx.to;
           if (process.env.EMAIL_OVERRIDE) {
             ctx.to = process.env.EMAIL_OVERRIDE;
           }
