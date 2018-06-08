@@ -53,14 +53,18 @@ module.exports = (ndx) ->
             if err
               message.err = err
               safeCallback 'error', message
+              cb? err, message
             else
               safeCallback 'send', message
+              cb? null, message
         else
           ctx.err = 'mail disabled'
           safeCallback 'error', ctx
+          cb? ctx.err, ctx
       else
         ctx.err = 'user/pass/service/host not set'
         safeCallback 'error', ctx
+        cb? ctx.err, ctx
     on: (name, callback) ->
       callbacks[name].push callback
       @

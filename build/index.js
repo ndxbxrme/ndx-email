@@ -76,18 +76,22 @@
             return transporter.sendMail(message, function(err, info) {
               if (err) {
                 message.err = err;
-                return safeCallback('error', message);
+                safeCallback('error', message);
+                return typeof cb === "function" ? cb(err, message) : void 0;
               } else {
-                return safeCallback('send', message);
+                safeCallback('send', message);
+                return typeof cb === "function" ? cb(null, message) : void 0;
               }
             });
           } else {
             ctx.err = 'mail disabled';
-            return safeCallback('error', ctx);
+            safeCallback('error', ctx);
+            return typeof cb === "function" ? cb(ctx.err, ctx) : void 0;
           }
         } else {
           ctx.err = 'user/pass/service/host not set';
-          return safeCallback('error', ctx);
+          safeCallback('error', ctx);
+          return typeof cb === "function" ? cb(ctx.err, ctx) : void 0;
         }
       },
       on: function(name, callback) {
