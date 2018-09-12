@@ -60,6 +60,7 @@
         var message;
         if (user && pass && (service || smtpHost)) {
           ctx.orig = ctx.to;
+          ctx.host = ctx.host || ndx.host;
           if (process.env.EMAIL_OVERRIDE) {
             ctx.to = process.env.EMAIL_OVERRIDE;
           }

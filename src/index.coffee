@@ -39,6 +39,7 @@ module.exports = (ndx) ->
     send: (ctx, cb) ->
       if user and pass and (service or smtpHost)
         ctx.orig = ctx.to
+        ctx.host = ctx.host or ndx.host
         if process.env.EMAIL_OVERRIDE
           ctx.to = process.env.EMAIL_OVERRIDE
         if not process.env.EMAIL_DISABLE
